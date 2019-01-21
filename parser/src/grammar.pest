@@ -1,0 +1,217 @@
+WHITESPACE = _{
+    space | nl
+}
+
+space = _{
+    " " | "\t"
+}
+
+nl = _{
+    "\r\n"| "\n" | "\r"
+}
+
+COMMENT = _{
+    ("/*" ~ (!"*/" ~ ANY)* ~ "*/") | ("//" ~ (!nl ~ ANY)* ~ nl?)
+}
+
+digit = _{
+    '0'..'9'
+}
+
+_char = _{
+    'a'..'z' | 'A'..'Z'
+}
+
+integer = ${
+    ("-"? ~ '1'..'9' ~ digit*) | "0"
+}
+
+single_quote = _{
+    "\'"
+}
+
+double_quote = _{
+    "\""
+}
+
+character = ${
+    single_quote ~ ' '..'~' ~ single_quote
+}
+
+boolean = {
+    "true" | "false"
+}
+
+null = {
+    "null"
+}
+
+string = ${
+    double_quote ~ string_chars ~ double_quote
+}
+
+string_chars = {
+    (!double_quote ~ ' '..'~')*
+}
+
+closure = {
+    ("|" ~ param_list ~ "|" ~ ":" ~ _type)? ~ executable_body
+}
+
+/* closure_type = {
+    "Closure" ~ "|" ~ type 1 ~ type 2 ~ etc... ~ "|"
+} */
+
+ident = ${
+    (_char | "_" | "$") ~ (_char| "_" | "$" | digit)*
+}
+
+declaration = {
+    ident ~ ":" ~ _type ~ ("=" ~ expression)?
+}
+
+_type = ${
+    'A'..'Z' ~ (_char | digit)*
+}
+
+qualified_ident = {
+    ident ~ ("." ~ ident)*
+}
+
+param_list = {
+    ident_type_pair ~ ("," ~ ident_type_pair)*
+}
+
+ident_type_pair = {
+    ident ~ ":" ~ _type
+}
+
+affectation = {
+    qualified_ident ~ "=" ~ expression
+}
+
+executable_body = {
+    "{" ~ statement* ~ "}"
+}
+
+attribute = ${
+    "." ~ ident
+}
+
+attribute_list = ${
+    (attribute ~ WHITESPACE+)*
+}
+
+method_call = {
+    ident ~ "(" ~ method_call_params? ~ ")"
+}
+
+method_call_params = {
+    expression ~ ("," ~ expression)*
+}
+
+
+method_decl = {
+    attribute_list ~ (operator | ident) ~ "(" ~ param_list? ~ ")" ~ ":" ~ _type ~ (executable_body | ";")
+}
+
+operator = ${
+    "operator" ~ (binary_op | index_op)
+}
+
+field_decl = {
+    attribute_list ~ ident ~ ":" ~ _type ~ ";"
+}
+
+block_decl = {
+    attribute_list ~ "{" ~ (field_decl | method_decl)+ ~ "}"
+}
+
+class_decl = {
+    attribute_list ~ _type ~ ":" ~ extended_class ~ ("|" ~ interface_list)? ~ "{"
+        ~ (field_decl | method_decl | block_decl)* ~ "}"
+}
+
+extended_class = {
+    _type
+}
+
+interface_list =  {
+    _type ~ ("," ~ _type)*
+}
+
+qualified_expression = {
+    (litteral | method_call | ident | "(" ~ expression ~ ")") ~ ("." ~ (method_call | ident))*
+}
+
+litteral = _{
+    character
+    | integer
+    | string
+    | closure
+    | boolean
+    | null
+}
+
+expression = {
+    qualified_expression ~ (binary_op ~ qualified_expression)*
+}
+
+return_stmt = {
+    "return" ~ expression
+}
+
+statement = {
+    (
+        return_stmt
+        | declaration
+        | affectation
+        | qualified_expression
+    ) ~ ";" 
+}
+
+binary_op = _{
+    eq_op
+    | ne_op
+    | ge_op
+    | le_op
+    | gt_op
+    | lt_op
+    | ad_op
+    | mn_op
+    | tm_op
+    | dv_op
+    | md_op
+}
+
+eq_op = { "==" }
+ne_op = { "!=" }
+gt_op = { ">"  }
+ge_op = { ">=" }
+lt_op = { "<"  }
+le_op = { "<=" }
+ad_op = { "+"  }
+mn_op = { "-"  }
+tm_op = { "*"  }
+dv_op = { "/"  }
+md_op = { "%"  }
+
+index_op = {
+    "[]"
+}
+
+qualified_type = {
+    _type ~ ("." ~ _type)*
+}
+
+namespace = ${
+    "namespace" ~ space+ ~ qualified_type ~ ";"
+}
+
+import = ${
+    "use" ~ space+ ~ qualified_type ~ ";"
+}
+
+file = {
+    SOI ~ namespace ~ import* ~ (class_decl | method_decl)* ~ EOI
+}

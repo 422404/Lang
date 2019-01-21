@@ -1,0 +1,31 @@
+namespace My.Program.Namespace;
+
+use Lang.Util.Hello;
+use Lang.Util.World;
+
+.public
+myFunction(a: Int, b: String): Int {
+    return 10;
+}
+
+.private anotherFunction(): String {
+    return "Hello, world!";
+}
+
+.private fn1(): Char {
+    return 'a';
+}
+
+.private fn2(): Boolean {
+    return true;
+}
+
+.private fn3(): Object {
+    return null;
+}
+
+.public yetAnotherFunction(): Closure {
+    return | hello: World, a: B |: String {
+        return "Hi!";
+    };
+}

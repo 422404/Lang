@@ -1,0 +1,9 @@
+namespace Test;
+
+test1(c: Char): Char {
+    return (c.toInt() + 32).toChar();
+}
+
+test2(): Int {
+    return 10 + 3 * 6 - 8 / 9 + 1;
+}

@@ -1,0 +1,9 @@
+[package]
+name = "lang-parser"
+version = "0.1.0"
+authors = ["422404"]
+
+[dependencies]
+pest = "2.1.0"
+pest_derive = "2.1.0"
+lazy_static = "1.2.0"

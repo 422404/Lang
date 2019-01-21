@@ -1,0 +1,7 @@
+[package]
+name = "lang-compiler"
+version = "0.1.0"
+authors = ["422404"]
+
+[dependencies.lang-parser]
+path = "../parser"

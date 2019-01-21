@@ -1,0 +1,45 @@
+namespace Hi.There;
+
+use Lang.World;
+
+.public
+hello(): String {
+    hello: World = World.new();
+    hello.greetings = "Yey!";
+    hello.init(10);
+    return hello.world().toString().length;
+}
+
+operator*(i: Int): Int {
+    return 10;
+}
+
+.public
+.abstract
+MyClass: SuperClass | Interface1, Interface2, Interface3 {
+    .private
+    myField: Int;
+
+    .init init(): MyClass {
+        self.myField = 10;
+        return self;
+    }
+
+    .abstract myMethod(a: String): Int;
+
+    .public anotherMethod(a: Int, b: Bool): String {
+        myVar: Int = self.myField.add(1);
+        return myVar.toString();
+    }
+
+    .private {
+        method1(): Int {
+            return 10;
+        }
+
+        .helloworld
+        method2(): Bool {
+            return false;
+        }
+    }
+}
