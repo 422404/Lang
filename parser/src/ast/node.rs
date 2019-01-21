@@ -4,6 +4,7 @@ use std::any::Any;
 
 pub trait FromPair<'a> {
     fn from_pair<'b>(pair: Pair<'b, Rule>) -> Self;
+    fn get_pos(&self) -> (usize, usize);
 }
 
 /********** unused *****************/

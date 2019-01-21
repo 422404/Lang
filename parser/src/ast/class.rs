@@ -6,6 +6,7 @@ use pest::iterators::Pair;
 
 #[derive(Clone, Debug)]
 pub struct Class {
+    pos: (usize, usize),
     attributes: Vec<Attribute>,
     name: String,
     super_name: String,
@@ -22,6 +23,7 @@ pub enum ClassMember {
 
 #[derive(Clone, Debug)]
 pub struct Field {
+    pos: (usize, usize),
     attributes: Vec<Attribute>,
     name: String,
     type_name: String,
@@ -29,6 +31,7 @@ pub struct Field {
 
 #[derive(Clone, Debug)]
 pub struct Block {
+    pos: (usize, usize),
     attributes: Vec<Attribute>,
     members: Vec<ClassMember>,
 }
@@ -59,6 +62,7 @@ impl<'a> FromPair<'a> for Class {
     fn from_pair<'b>(pair: Pair<'b, Rule>) -> Self {
         assert_eq!(pair.as_rule(), Rule::class_decl);
 
+        let pos = pair.as_span().start_pos().line_col();
         let mut inner_iter = pair.into_inner();
         let attributes_iter = inner_iter.next().unwrap().into_inner();
         let mut attributes: Vec<Attribute> = vec![];
@@ -90,12 +94,17 @@ impl<'a> FromPair<'a> for Class {
         }
 
         Class {
+            pos,
             attributes,
             name,
             super_name,
             implemented_interfaces,
             members,
         }
+    }
+
+    fn get_pos(&self) -> (usize, usize) {
+        self.pos
     }
 }
 
@@ -117,6 +126,7 @@ impl<'a> FromPair<'a> for Field {
     fn from_pair<'b>(pair: Pair<'b, Rule>) -> Self {
         assert_eq!(pair.as_rule(), Rule::field_decl);
 
+        let pos = pair.as_span().start_pos().line_col();
         let mut inner_iter = pair.into_inner();
         let mut attributes: Vec<Attribute> = vec![];
         let attributes_iter = inner_iter.next().unwrap().into_inner();
@@ -127,10 +137,15 @@ impl<'a> FromPair<'a> for Field {
         let type_name = String::from(inner_iter.next().unwrap().as_str());
 
         Field {
+            pos,
             attributes,
             name,
             type_name,
         }
+    }
+
+    fn get_pos(&self) -> (usize, usize) {
+        self.pos
     }
 }
 
@@ -148,6 +163,7 @@ impl<'a> FromPair<'a> for Block {
     fn from_pair<'b>(pair: Pair<'b, Rule>) -> Self {
         assert_eq!(pair.as_rule(), Rule::block_decl);
 
+        let pos = pair.as_span().start_pos().line_col();
         let mut inner_iter = pair.into_inner();
         let attributes_iter = inner_iter.next().unwrap().into_inner();
         let mut attributes: Vec<Attribute> = vec![];
@@ -168,8 +184,13 @@ impl<'a> FromPair<'a> for Block {
         }
 
         Block {
+            pos,
             attributes,
             members,
         }
+    }
+
+    fn get_pos(&self) -> (usize, usize) {
+        self.pos
     }
 }

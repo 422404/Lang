@@ -39,6 +39,7 @@ pub enum QualifiedExpressionPart {
 
 #[derive(Clone, Debug)]
 pub struct QualifiedExpression {
+    pos: (usize, usize),
     parts: Vec<QualifiedExpressionPart>
 }
 
@@ -88,27 +89,49 @@ impl<'a> FromPair<'a> for QualifiedExpression {
         }
 
         let mut parts: Vec<QualifiedExpressionPart> = vec![];
+        let pos = pair.as_span().start_pos().line_col();
         for pair in pair.into_inner() {
             parts.push(QualifiedExpressionPart::from_pair(pair));
         }
 
-        QualifiedExpression { parts }
+        QualifiedExpression {
+            pos,
+            parts,
+        }
+    }
+
+    fn get_pos(&self) -> (usize, usize) {
+        self.pos
     }
 }
 
 impl<'a> FromPair<'a> for QualifiedExpressionPart {
     fn from_pair<'b>(pair: Pair<'b, Rule>) -> Self {
         match pair.as_rule() {
-            Rule::ident => QualifiedExpressionPart::Identifier(Identifier::from_pair(pair)),
+            Rule::ident       => QualifiedExpressionPart::Identifier(Identifier::from_pair(pair)),
             Rule::method_call => QualifiedExpressionPart::MethodCall(FunctionCall::from_pair(pair)),
-            Rule::integer => QualifiedExpressionPart::Integer(Integer::from_pair(pair)),
-            Rule::string =>  QualifiedExpressionPart::StringLitteral(StringLitteral::from_pair(pair)),
-            Rule::character => QualifiedExpressionPart::Char(Char::from_pair(pair)),
-            Rule::boolean => QualifiedExpressionPart::Boolean(Boolean::from_pair(pair)),
-            Rule::null => QualifiedExpressionPart::Null,
-            Rule::closure => QualifiedExpressionPart::Closure(Closure::from_pair(pair)),
-            Rule::expression => QualifiedExpressionPart::ParenExpr(Expression::from_pair(pair)),
-            _ => unreachable!()
+            Rule::integer     => QualifiedExpressionPart::Integer(Integer::from_pair(pair)),
+            Rule::string      =>  QualifiedExpressionPart::StringLitteral(StringLitteral::from_pair(pair)),
+            Rule::character   => QualifiedExpressionPart::Char(Char::from_pair(pair)),
+            Rule::boolean     => QualifiedExpressionPart::Boolean(Boolean::from_pair(pair)),
+            Rule::null        => QualifiedExpressionPart::Null,
+            Rule::closure     => QualifiedExpressionPart::Closure(Closure::from_pair(pair)),
+            Rule::expression  => QualifiedExpressionPart::ParenExpr(Expression::from_pair(pair)),
+            _                 => unreachable!()
+        }
+    }
+
+    fn get_pos(&self) -> (usize, usize) {
+        match self {
+            QualifiedExpressionPart::Identifier(i)     => i.get_pos(),
+            QualifiedExpressionPart::MethodCall(f)     => f.get_pos(),
+            QualifiedExpressionPart::Integer(int)      => int.get_pos(),
+            QualifiedExpressionPart::StringLitteral(s) => s.get_pos(),
+            QualifiedExpressionPart::Char(c)           => c.get_pos(),
+            QualifiedExpressionPart::Boolean(b)        => b.get_pos(),
+            QualifiedExpressionPart::Closure(cl)       => cl.get_pos(),
+            QualifiedExpressionPart::ParenExpr(e)      => e.get_pos(),
+            QualifiedExpressionPart::Null              => unimplemented!(),
         }
     }
 }
@@ -142,5 +165,12 @@ impl<'a> FromPair<'a> for Expression {
                 Expression::Operation(Operation::new(lval, rval, operation))
             }
         ).clone()
+    }
+
+    fn get_pos(&self) -> (usize, usize) {
+        match self {
+            Expression::Expr(e)      => e.get_pos(),
+            Expression::Operation(_) => unimplemented!()
+        }
     }
 }

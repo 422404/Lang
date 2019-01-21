@@ -6,6 +6,7 @@ use pest::iterators::Pair;
 
 #[derive(Clone, Debug)]
 pub struct Closure {
+    pos: (usize, usize),
     params: Vec<Param>,
     return_type: String,
     statements: Vec<Statement>,
@@ -29,6 +30,7 @@ impl<'a> FromPair<'a> for Closure {
     fn from_pair<'b>(pair: Pair<'b, Rule>) -> Self {
         assert_eq!(pair.as_rule(), Rule::closure);
 
+        let pos = pair.as_span().start_pos().line_col();
         let mut params: Vec<Param> = vec![];
         let mut return_type = String::new();
         let mut statements: Vec<Statement> = vec![];
@@ -53,9 +55,14 @@ impl<'a> FromPair<'a> for Closure {
         }
 
         Closure {
+            pos,
             params,
             return_type,
             statements
         }
+    }
+
+    fn get_pos(&self) -> (usize, usize) {
+        self.pos
     }
 }

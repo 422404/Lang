@@ -8,6 +8,7 @@ use pest::iterators::Pair;
 
 #[derive(Clone, Debug)]
 pub struct Function {
+    pos: (usize, usize),
     attributes: Vec<Attribute>,
     name: String,
     params: Vec<Param>,
@@ -17,6 +18,7 @@ pub struct Function {
 
 #[derive(Clone, Debug)]
 pub struct FunctionCall {
+    pos: (usize, usize),
     name: String,
     param_exprs: Vec<Expression>,
 }
@@ -52,6 +54,7 @@ impl<'a> FromPair<'a> for Function {
         let mut params: Vec<Param> = vec![];
         let mut return_type = String::new();
         let mut statements: Vec<Statement> = vec![];
+        let pos = pair.as_span().start_pos().line_col();
 
         for pair in pair.into_inner() {
             match pair.as_rule() {
@@ -81,12 +84,17 @@ impl<'a> FromPair<'a> for Function {
         }
 
         Function {
+            pos,
             attributes,
             name,
             params,
             return_type,
             statements
         }
+    }
+
+    fn get_pos(&self) -> (usize, usize) {
+        self.pos
     }
 }
 
@@ -104,6 +112,7 @@ impl<'a> FromPair<'a> for FunctionCall {
     fn from_pair<'b>(pair: Pair<'b, Rule>) -> Self {
         assert_eq!(pair.as_rule(), Rule::method_call);
 
+        let pos = pair.as_span().start_pos().line_col();
         let mut inner_pair = pair.into_inner();
         let name = String::from(inner_pair.next().unwrap().as_str());
         let mut param_exprs: Vec<Expression> = vec![];
@@ -118,8 +127,13 @@ impl<'a> FromPair<'a> for FunctionCall {
         }
 
         FunctionCall {
+            pos,
             name,
             param_exprs,
         }
+    }
+
+    fn get_pos(&self) -> (usize, usize) {
+        self.pos
     }
 }

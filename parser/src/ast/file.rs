@@ -76,4 +76,8 @@ impl<'a> FromPair<'a> for File {
             entities,
         }
     }
+
+    fn get_pos(&self) -> (usize, usize) {
+        (0, 0)
+    }
 }

@@ -5,6 +5,7 @@ use pest::iterators::Pair;
 
 #[derive(Clone, Debug)]
 pub struct VariableDeclaration {
+    pos: (usize, usize),
     name: String,
     type_name: String,
     value: Option<Expression>
@@ -12,6 +13,7 @@ pub struct VariableDeclaration {
 
 #[derive(Clone, Debug)]
 pub struct VariableAffectation {
+    pos: (usize, usize),
     receiver: QualifiedExpression,
     value: Expression,
 }
@@ -34,6 +36,7 @@ impl<'a> FromPair<'a> for VariableDeclaration {
     fn from_pair<'b>(pair: Pair<'b, Rule>) -> Self {
         assert_eq!(pair.as_rule(), Rule::declaration);
 
+        let pos = pair.as_span().start_pos().line_col();
         let mut inner_pair = pair.into_inner();
         let name = String::from(inner_pair.next().unwrap().as_str());
         let type_name = String::from(inner_pair.next().unwrap().as_str());
@@ -43,10 +46,15 @@ impl<'a> FromPair<'a> for VariableDeclaration {
         };
 
         VariableDeclaration {
+            pos,
             name,
             type_name,
             value
         }
+    }
+
+    fn get_pos(&self) -> (usize, usize) {
+        self.pos
     }
 }
 
@@ -64,11 +72,17 @@ impl<'a> FromPair<'a> for VariableAffectation {
     fn from_pair<'b>(pair: Pair<'b, Rule>) -> Self {
         assert_eq!(pair.as_rule(), Rule::affectation);
 
+        let pos = pair.as_span().start_pos().line_col();
         let mut inner_iter = pair.into_inner();
 
         VariableAffectation {
+            pos,
             receiver: QualifiedExpression::from_pair(inner_iter.next().unwrap()),
             value: Expression::from_pair(inner_iter.next().unwrap())
         }
+    }
+
+    fn get_pos(&self) -> (usize, usize) {
+        self.pos
     }
 }

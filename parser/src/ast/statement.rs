@@ -34,4 +34,13 @@ impl<'a> FromPair<'a> for Statement {
             _ => unreachable!()
         }
     }
+
+    fn get_pos(&self) -> (usize, usize) {
+        match self {
+            Statement::ReturnStatement(r)     => r.get_pos(),
+            Statement::Declaration(d)         => d.get_pos(),
+            Statement::Affectation(a)         => a.get_pos(),
+            Statement::QualifiedExpression(e) => e.get_pos(),
+        }
+    }
 }
