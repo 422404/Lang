@@ -61,3 +61,16 @@ Student: Person {
     }
 }
 ```
+
+## Building and Running
+### Building
+```bash
+# in project root dir
+cargo build
+```
+
+### Running
+```bash
+# in project root dir
+./target/debug/lang-compiler.exe ./tests/Script1.lang
+```
