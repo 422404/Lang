@@ -12,6 +12,13 @@ impl Identifier {
     pub fn get_name(&self) -> &String {
         &self.name
     }
+
+    pub fn new(pos: (usize, usize), name: String) -> Self {
+        Identifier {
+            pos,
+            name,
+        }
+    }
 }
 
 impl<'a> FromPair<'a> for Identifier {
@@ -38,6 +45,13 @@ pub struct StringLitteral {
 impl StringLitteral {
     pub fn get_value(&self) -> &String {
         &self.value
+    }
+
+    pub fn new(pos: (usize, usize), value: String) -> Self {
+        StringLitteral {
+            pos,
+            value,
+        }
     }
 }
 
@@ -70,6 +84,13 @@ impl Integer {
     pub fn get_value(&self) -> &i32 {
         &self.value
     }
+
+    pub fn new(pos: (usize, usize), value: i32) -> Self {
+        Integer {
+            pos,
+            value,
+        }
+    }
 }
 
 impl<'a> FromPair<'a> for Integer {
@@ -97,6 +118,13 @@ impl Char {
     pub fn get_value(&self) -> &char {
         &self.value
     }
+
+    pub fn new(pos: (usize, usize), value: char) -> Self {
+        Char {
+            pos,
+            value,
+        }
+    }
 }
 
 impl<'a> FromPair<'a> for Char {
@@ -123,6 +151,13 @@ pub struct Boolean {
 impl Boolean {
     pub fn get_value(&self) -> &bool {
         &self.value
+    }
+
+    pub fn new(pos: (usize, usize), value: bool) -> Self {
+        Boolean {
+            pos,
+            value,
+        }
     }
 }
 

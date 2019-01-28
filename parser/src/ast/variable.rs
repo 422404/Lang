@@ -8,7 +8,7 @@ pub struct VariableDeclaration {
     pos: (usize, usize),
     name: String,
     type_name: String,
-    value: Option<Expression>
+    value: Option<Expression>,
 }
 
 #[derive(Clone, Debug)]
@@ -29,6 +29,15 @@ impl VariableDeclaration {
 
     pub fn get_value(&self) -> &Option<Expression> {
         &self.value
+    }
+
+    pub fn new(pos: (usize, usize), name: String, type_name: String, value: Option<Expression>) -> Self {
+        VariableDeclaration {
+            pos,
+            name,
+            type_name,
+            value,
+        }
     }
 }
 
@@ -65,6 +74,14 @@ impl VariableAffectation {
 
     pub fn get_value(&self) -> &Expression {
         &self.value
+    }
+
+    pub fn new(pos: (usize, usize), receiver: QualifiedExpression, value: Expression) -> Self {
+        VariableAffectation {
+            pos,
+            receiver,
+            value,
+        }
     }
 }
 

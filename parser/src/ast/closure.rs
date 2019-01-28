@@ -24,6 +24,16 @@ impl Closure {
     pub fn get_statements(&self) ->&Vec<Statement> {
         &self.statements
     }
+
+    pub fn new(pos: (usize, usize), params: Vec<Param>, return_type: String,
+            statements: Vec<Statement>) -> Self {
+        Closure {
+            pos,
+            params,
+            return_type,
+            statements,
+        }
+    }
 }
 
 impl<'a> FromPair<'a> for Closure {

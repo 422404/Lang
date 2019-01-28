@@ -8,7 +8,7 @@ use pest::iterators::Pair;
 pub struct File {
     namespace: String,
     imports: Vec<String>,
-    entities: Vec<FirstClassEntity>
+    entities: Vec<FirstClassEntity>,
 }
 
 #[derive(Clone, Debug)]
@@ -28,6 +28,14 @@ impl File {
 
     pub fn get_entities(&self) -> &Vec<FirstClassEntity> {
         &self.entities
+    }
+
+    pub fn new(namespace: String, imports: Vec<String>, entities: Vec<FirstClassEntity>) -> Self {
+        File {
+            namespace,
+            imports,
+            entities,
+        }
     }
 }
 

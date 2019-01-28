@@ -40,7 +40,7 @@ pub enum QualifiedExpressionPart {
 #[derive(Clone, Debug)]
 pub struct QualifiedExpression {
     pos: (usize, usize),
-    parts: Vec<QualifiedExpressionPart>
+    parts: Vec<QualifiedExpressionPart>,
 }
 
 #[derive(Clone, Debug)]
@@ -72,15 +72,39 @@ pub enum OperationType {
 }
 
 impl Operation {
-    fn new(lval: Expression, rval: Expression, op: OperationType) -> Self {
+    pub fn new(lval: Expression, rval: Expression, op: OperationType) -> Self {
         Operation {
             lval: Box::new(lval),
             rval: Box::new(rval),
             op,
         }
     }
+
+    pub fn get_lval(&self) -> &Expression {
+        &self.lval
+    }
+
+    pub fn get_rval(&self) -> &Expression {
+        &self.rval
+    }
+
+    pub fn get_op(&self) -> &OperationType {
+        &self.op
+    }
 }
 
+impl QualifiedExpression {
+    pub fn new(pos: (usize, usize), parts: Vec<QualifiedExpressionPart>) -> Self {
+        QualifiedExpression {
+            pos,
+            parts,
+        }
+    }
+
+    pub fn get_parts(&self) -> &Vec<QualifiedExpressionPart> {
+        &self.parts
+    }
+}
 impl<'a> FromPair<'a> for QualifiedExpression {
     fn from_pair<'b>(pair: Pair<'b, Rule>) -> Self {
         if pair.as_rule() != Rule::qualified_expression

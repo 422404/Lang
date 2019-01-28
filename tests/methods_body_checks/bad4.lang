@@ -1,0 +1,9 @@
+namespace Hello.World;
+
+.interface
+.private
+.abstract
+MyAbstractInterface: Interface {
+    .public .abstract hello(): Int;
+    .public world(): String;
+}

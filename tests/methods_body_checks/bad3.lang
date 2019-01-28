@@ -1,0 +1,10 @@
+namespace Hello.World;
+
+.interface
+MyInterface: Interface {
+    .public hello(): Int;
+    .public world(): String {
+        // illegal body
+        return this.hashcode.toString();
+    }
+}

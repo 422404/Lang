@@ -1,0 +1,19 @@
+namespace Hello.World;
+
+MyClass: Object {
+    .public .native nativeFn(): Void;
+    .public fn(): Int {
+        return this.hashcode();
+    }
+}
+
+.abstract
+MyAbstract: Object {
+    .abstract abstractFn(): Int;
+}
+
+.interface
+MyInterface: Interface {
+    .public hello(): Int;
+    .public world(): String;
+}

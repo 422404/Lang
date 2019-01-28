@@ -1,0 +1,8 @@
+namespace Hello.World;
+
+MyClass: Object {
+    .public .native nativeFn(): Void {
+        // illegal body
+        this.printName();
+    }
+}

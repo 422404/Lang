@@ -43,6 +43,18 @@ impl Function {
     pub fn get_statements(&self) ->&Vec<Statement> {
         &self.statements
     }
+
+    pub fn new(pos: (usize, usize), attributes: Vec<Attribute>, name: String, params: Vec<Param>,
+            return_type: String, statements: Vec<Statement>) -> Self {
+        Function {
+            pos,
+            attributes,
+            name,
+            params,
+            return_type,
+            statements,
+        }
+    }
 }
 
 impl<'a> FromPair<'a> for Function {
@@ -105,6 +117,14 @@ impl FunctionCall {
 
     pub fn get_param_exprs(&self) -> &Vec<Expression> {
         &self.param_exprs
+    }
+
+    pub fn new(pos: (usize, usize), name: String, param_exprs: Vec<Expression>) -> Self {
+        FunctionCall {
+            pos,
+            name,
+            param_exprs,
+        }
     }
 }
 

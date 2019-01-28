@@ -56,6 +56,19 @@ impl Class {
     pub fn get_members(&self) -> &Vec<ClassMember> {
         &self.members
     }
+
+    pub fn new(pos: (usize, usize),  attributes: Vec<Attribute>, name: String,
+            super_name: String, implemented_interfaces: Vec<String>,
+            members: Vec<ClassMember>) -> Self {
+        Class {
+            pos,
+            attributes,
+            name,
+            super_name,
+            implemented_interfaces,
+            members,
+        }
+    }
 }
 
 impl<'a> FromPair<'a> for Class {
@@ -120,6 +133,16 @@ impl Field {
     pub fn get_type_name(&self) -> &str {
         &self.type_name
     }
+
+    pub fn new(pos: (usize, usize), attributes: Vec<Attribute>, name: String,
+            type_name: String) -> Self {
+        Field {
+            pos,
+            attributes,
+            name,
+            type_name,
+        }
+    }
 }
 
 impl<'a> FromPair<'a> for Field {
@@ -156,6 +179,15 @@ impl<'a> Block {
 
     pub fn get_members(&self) -> &Vec<ClassMember> {
         &self.members
+    }
+
+    pub fn new(pos: (usize, usize), attributes: Vec<Attribute>,
+            members: Vec<ClassMember>) -> Self {
+        Block {
+            pos,
+            attributes,
+            members,
+        }
     }
 }
 

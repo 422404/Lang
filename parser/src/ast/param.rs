@@ -6,7 +6,7 @@ use pest::iterators::Pair;
 pub struct Param {
     pos: (usize, usize),
     name: String,
-    type_name: String
+    type_name: String,
 }
 
 impl Param {
@@ -16,6 +16,14 @@ impl Param {
 
     pub fn get_name(&self) -> &str {
         &self.name
+    }
+
+    pub fn new(pos: (usize, usize), name: String, type_name: String) -> Self {
+        Param {
+            pos,
+            name,
+            type_name,
+        }
     }
 }
 

@@ -5,12 +5,19 @@ use pest::iterators::Pair;
 #[derive(Clone, Debug)]
 pub struct Attribute {
     pos: (usize, usize),
-    name: String
+    name: String,
 }
 
 impl Attribute {
     pub fn get_name(&self) -> &str {
         &self.name
+    }
+
+    pub fn new(pos: (usize, usize), name: String) -> Self {
+        Attribute {
+            pos,
+            name,
+        }
     }
 }
 

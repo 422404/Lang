@@ -11,12 +11,12 @@ mod class;
 mod litterals;
 
 pub use self::{
-    file::File,
+    file::{File, FirstClassEntity},
     node::{FromPair, AstNode, ToAny, AstNodeType},
     attribute::Attribute,
     function::{Function, FunctionCall},
     param::Param,
-    expression::{QualifiedExpression, QualifiedExpressionPart},
+    expression::{Operation, Expression, QualifiedExpression, QualifiedExpressionPart},
     statement::Statement,
     closure::Closure,
     variable::{VariableDeclaration, VariableAffectation},

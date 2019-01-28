@@ -1,0 +1,8 @@
+namespace Hello.World;
+
+MyClass: Object {
+    .public .abstract fn(): Void {
+        // illegal body
+        this.printName();
+    }
+}
