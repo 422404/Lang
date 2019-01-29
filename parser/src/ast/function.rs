@@ -24,24 +24,24 @@ pub struct FunctionCall {
 }
 
 impl Function {
-    pub fn get_attributes(&self) -> &Vec<Attribute> {
-        &self.attributes
+    pub fn get_attributes(&mut self) -> &mut Vec<Attribute> {
+        &mut self.attributes
     }
 
     pub fn get_name(&self) -> &str {
         &self.name
     }
 
-    pub fn get_params(&self) -> &Vec<Param> {
-        &self.params
+    pub fn get_params(&mut self) -> &mut Vec<Param> {
+        &mut self.params
     }
 
     pub fn get_return_type(&self) -> &str {
         &self.return_type
     }
 
-    pub fn get_statements(&self) ->&Vec<Statement> {
-        &self.statements
+    pub fn get_statements(&mut self) ->&mut Vec<Statement> {
+        &mut self.statements
     }
 
     pub fn new(pos: (usize, usize), attributes: Vec<Attribute>, name: String, params: Vec<Param>,
@@ -115,8 +115,8 @@ impl FunctionCall {
         &self.name
     }
 
-    pub fn get_param_exprs(&self) -> &Vec<Expression> {
-        &self.param_exprs
+    pub fn get_param_exprs(&mut self) -> &mut Vec<Expression> {
+        &mut self.param_exprs
     }
 
     pub fn new(pos: (usize, usize), name: String, param_exprs: Vec<Expression>) -> Self {

@@ -9,7 +9,7 @@ pub struct Identifier {
 }
 
 impl Identifier {
-    pub fn get_name(&self) -> &String {
+    pub fn get_name(&self) -> &str {
         &self.name
     }
 
@@ -43,7 +43,7 @@ pub struct StringLitteral {
 }
 
 impl StringLitteral {
-    pub fn get_value(&self) -> &String {
+    pub fn get_value(&self) -> &str {
         &self.value
     }
 

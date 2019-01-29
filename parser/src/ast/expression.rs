@@ -80,16 +80,16 @@ impl Operation {
         }
     }
 
-    pub fn get_lval(&self) -> &Expression {
-        &self.lval
+    pub fn get_lval(&mut self) -> &mut Expression {
+        &mut self.lval
     }
 
-    pub fn get_rval(&self) -> &Expression {
-        &self.rval
+    pub fn get_rval(&mut self) -> &mut Expression {
+        &mut self.rval
     }
 
-    pub fn get_op(&self) -> &OperationType {
-        &self.op
+    pub fn get_op(&mut self) -> &mut OperationType {
+        &mut self.op
     }
 }
 
@@ -101,8 +101,8 @@ impl QualifiedExpression {
         }
     }
 
-    pub fn get_parts(&self) -> &Vec<QualifiedExpressionPart> {
-        &self.parts
+    pub fn get_parts(&mut self) -> &mut Vec<QualifiedExpressionPart> {
+        &mut self.parts
     }
 }
 impl<'a> FromPair<'a> for QualifiedExpression {

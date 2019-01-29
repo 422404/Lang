@@ -22,12 +22,12 @@ impl File {
         &self.namespace
     }
 
-    pub fn get_imports(&self) -> &Vec<String> {
-        &self.imports
+    pub fn get_imports(&mut self) -> &mut Vec<String> {
+        &mut self.imports
     }
 
-    pub fn get_entities(&self) -> &Vec<FirstClassEntity> {
-        &self.entities
+    pub fn get_entities(&mut self) -> &mut Vec<FirstClassEntity> {
+        &mut self.entities
     }
 
     pub fn new(namespace: String, imports: Vec<String>, entities: Vec<FirstClassEntity>) -> Self {

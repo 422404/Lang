@@ -13,16 +13,16 @@ pub struct Closure {
 }
 
 impl Closure {
-    pub fn get_params(&self) -> &Vec<Param> {
-        &self.params
+    pub fn get_params(&mut self) -> &mut Vec<Param> {
+        &mut self.params
     }
 
     pub fn get_return_type(&self) -> &str {
         &self.return_type
     }
 
-    pub fn get_statements(&self) ->&Vec<Statement> {
-        &self.statements
+    pub fn get_statements(&mut self) ->&mut Vec<Statement> {
+        &mut self.statements
     }
 
     pub fn new(pos: (usize, usize), params: Vec<Param>, return_type: String,

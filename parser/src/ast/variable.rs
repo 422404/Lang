@@ -27,8 +27,8 @@ impl VariableDeclaration {
         &self.type_name
     }
 
-    pub fn get_value(&self) -> &Option<Expression> {
-        &self.value
+    pub fn get_value(&mut self) -> &mut Option<Expression> {
+        &mut self.value
     }
 
     pub fn new(pos: (usize, usize), name: String, type_name: String, value: Option<Expression>) -> Self {
@@ -68,12 +68,12 @@ impl<'a> FromPair<'a> for VariableDeclaration {
 }
 
 impl VariableAffectation {
-    pub fn get_receiver(&self) -> &QualifiedExpression {
-        &self.receiver
+    pub fn get_receiver(&mut self) -> &mut QualifiedExpression {
+        &mut self.receiver
     }
 
-    pub fn get_value(&self) -> &Expression {
-        &self.value
+    pub fn get_value(&mut self) -> &mut Expression {
+        &mut self.value
     }
 
     pub fn new(pos: (usize, usize), receiver: QualifiedExpression, value: Expression) -> Self {

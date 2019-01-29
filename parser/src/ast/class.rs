@@ -37,8 +37,8 @@ pub struct Block {
 }
 
 impl Class {
-    pub fn get_attributes(&self) -> &Vec<Attribute> {
-        &self.attributes
+    pub fn get_attributes(&mut self) -> &mut Vec<Attribute> {
+        &mut self.attributes
     }
 
     pub fn get_name(&self) -> &str {
@@ -49,12 +49,12 @@ impl Class {
         &self.super_name
     }
 
-    pub fn get_implemented_interfaces(&self) -> &Vec<String> {
-        &self.implemented_interfaces
+    pub fn get_implemented_interfaces(&mut self) -> &mut Vec<String> {
+        &mut self.implemented_interfaces
     }
 
-    pub fn get_members(&self) -> &Vec<ClassMember> {
-        &self.members
+    pub fn get_members(&mut self) -> &mut Vec<ClassMember> {
+        &mut self.members
     }
 
     pub fn new(pos: (usize, usize),  attributes: Vec<Attribute>, name: String,
@@ -122,8 +122,8 @@ impl<'a> FromPair<'a> for Class {
 }
 
 impl Field {
-    pub fn get_attributes(&self) -> &Vec<Attribute> {
-        &self.attributes
+    pub fn get_attributes(&mut self) -> &mut Vec<Attribute> {
+        &mut self.attributes
     }
 
     pub fn get_name(&self) -> &str {
@@ -173,12 +173,12 @@ impl<'a> FromPair<'a> for Field {
 }
 
 impl<'a> Block {
-    pub fn get_attributes(&self) -> &Vec<Attribute> {
-        &self.attributes
+    pub fn get_attributes(&mut self) -> &mut Vec<Attribute> {
+        &mut self.attributes
     }
 
-    pub fn get_members(&self) -> &Vec<ClassMember> {
-        &self.members
+    pub fn get_members(&mut self) -> &mut Vec<ClassMember> {
+        &mut self.members
     }
 
     pub fn new(pos: (usize, usize), attributes: Vec<Attribute>,

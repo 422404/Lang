@@ -1,6 +1,7 @@
 extern crate lang_parser;
 
 use lang_parser::ast::File;
+use errors::files::{no_file_error};
 use std::fs;
 
 #[derive(Clone, Debug)]
@@ -19,8 +20,8 @@ impl SourceFile {
         &self.code
     }
 
-    pub fn get_ast(&self) -> &File {
-        &self.ast
+    pub fn get_ast(&mut self) -> &mut File {
+        &mut self.ast
     }
 
     pub fn from_file(path: &String) -> Self {
@@ -30,7 +31,9 @@ impl SourceFile {
             Ok(code) => {
                 code_string.insert_str(0, &code);
             },
-            Err(error) => panic!(error)
+            Err(_) => {
+                no_file_error(path);
+            }
         }
 
         let ast = lang_parser::parse(&code_string.to_owned());
@@ -42,11 +45,11 @@ impl SourceFile {
         }
     }
 
-    pub fn new(path: String, code: String, ast: File) -> Self {
+    pub fn new(path: String, code: String) -> Self {
         SourceFile {
             path,
-            code,
-            ast,
+            code: code.clone(),
+            ast: lang_parser::parse(&code.clone()),
         }
     }
 }
