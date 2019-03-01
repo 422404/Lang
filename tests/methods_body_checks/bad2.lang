@@ -4,6 +4,5 @@ namespace Hello.World;
 MyAbstract: Object {
     .abstract abstractFn(): Int {
         // illegal body
-        return 10;
     }
 }

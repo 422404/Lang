@@ -1,0 +1,10 @@
+namespace Test;
+
+.public
+goodFn1(): Void {
+    // stub
+}
+
+.public
+.native
+goodFn2(): Int;

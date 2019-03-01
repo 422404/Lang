@@ -1,13 +1,13 @@
 Out of order passes:
 - OK: expand class blocks: .public { a: Int; b: Int; } --> .public a: Int; .public a: Int;
 - OK: put SourceFile in hashmap with namespace as key and Vec<SourceFile> as value
-- Ok: Check methods body:
+- OK: Check methods body:
     --> normal classes don't have bodyless methods unless they are natives
     --> abstract classes can have bodyless methods with .abstract attributes
     --> interfaces have only bodyless methods, these are not .abstract
-
-- Check freestanding functions body:
+- OK: Check freestanding functions body:
     --> only native functions can be bodyless
+
 - Collect symbols
 - Type checking
 - Validate attributes:

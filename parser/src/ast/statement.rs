@@ -6,7 +6,7 @@ use pest::iterators::Pair;
 
 #[derive(Clone, Debug)]
 pub enum Statement {
-    ReturnStatement(Expression),
+    ReturnStatement { expr: Option<Expression>, pos: (usize, usize) },
     Declaration(VariableDeclaration),
     Affectation(VariableAffectation),
     QualifiedExpression(QualifiedExpression),
@@ -19,8 +19,11 @@ impl<'a> FromPair<'a> for Statement {
         let inner_pair = pair.into_inner().next().unwrap();
         match inner_pair.as_rule() {
             Rule::return_stmt => {
-                let expr = inner_pair.into_inner().next().unwrap();
-                Statement::ReturnStatement(Expression::from_pair(expr))
+                let pos = inner_pair.as_span().start_pos().line_col();
+                match inner_pair.into_inner().next() {
+                    Some(e) => Statement::ReturnStatement { expr: Some(Expression::from_pair(e)), pos },
+                    None => Statement::ReturnStatement { expr: None, pos }
+                }
             },
             Rule::declaration => {
                 Statement::Declaration(VariableDeclaration::from_pair(inner_pair))
@@ -37,7 +40,7 @@ impl<'a> FromPair<'a> for Statement {
 
     fn get_pos(&self) -> (usize, usize) {
         match self {
-            Statement::ReturnStatement(r)     => r.get_pos(),
+            Statement::ReturnStatement { expr: _, pos } => pos.clone(),
             Statement::Declaration(d)         => d.get_pos(),
             Statement::Affectation(a)         => a.get_pos(),
             Statement::QualifiedExpression(e) => e.get_pos(),

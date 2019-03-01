@@ -93,8 +93,13 @@ pub trait AstVisitor {
 
     fn visit_statement(&mut self, n: &mut Statement) -> () {
         match n {
-            Statement::ReturnStatement(e) => {
-                self.visit_expression(e);
+            Statement::ReturnStatement { expr, pos: _ } => {
+                match expr {
+                    Some(e) => {
+                        self.visit_expression(e);
+                    },
+                    None => {},
+                }
             },
             Statement::Declaration(d) => {
                 self.visit_variable_declaration(d);

@@ -1,0 +1,4 @@
+namespace Test;
+
+.abstract
+myAbstractFn(): Void;

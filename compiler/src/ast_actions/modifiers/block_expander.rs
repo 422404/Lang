@@ -47,6 +47,7 @@ fn expand_block(b: &mut Block) -> Vec<ClassMember> {
                         String::from(m.get_name()),
                         m.get_params().clone(),
                         String::from(m.get_return_type()),
+                        m.has_body(),
                         m.get_statements().clone(),
                     )
                 ));

@@ -13,6 +13,7 @@ pub struct Function {
     name: String,
     params: Vec<Param>,
     return_type: String,
+    has_body: bool,
     statements: Vec<Statement>,
 }
 
@@ -44,14 +45,19 @@ impl Function {
         &mut self.statements
     }
 
+    pub fn has_body(&self) -> bool {
+        self.has_body
+    }
+
     pub fn new(pos: (usize, usize), attributes: Vec<Attribute>, name: String, params: Vec<Param>,
-            return_type: String, statements: Vec<Statement>) -> Self {
+            return_type: String, has_body: bool, statements: Vec<Statement>) -> Self {
         Function {
             pos,
             attributes,
             name,
             params,
             return_type,
+            has_body,
             statements,
         }
     }
@@ -67,6 +73,7 @@ impl<'a> FromPair<'a> for Function {
         let mut return_type = String::new();
         let mut statements: Vec<Statement> = vec![];
         let pos = pair.as_span().start_pos().line_col();
+        let mut has_body = false;
 
         for pair in pair.into_inner() {
             match pair.as_rule() {
@@ -87,6 +94,7 @@ impl<'a> FromPair<'a> for Function {
                     return_type.insert_str(0, pair.as_str());
                 },
                 Rule::executable_body => {
+                    has_body = true;
                     for statement in pair.into_inner() {
                         statements.push(Statement::from_pair(statement));
                     }
@@ -101,7 +109,8 @@ impl<'a> FromPair<'a> for Function {
             name,
             params,
             return_type,
-            statements
+            has_body,
+            statements,
         }
     }
 

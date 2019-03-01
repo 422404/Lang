@@ -6,7 +6,7 @@ use source_file::SourceFile;
 use errors::classes::class_err::{class_error, class_member_error};
 
 /**
- * Validate .native, .interface and .abstract attributes on classes ans
+ * Validate .native, .interface and .abstract attributes on classes and
  * theirs methods
  */
 pub fn check_methods_body(s: &mut SourceFile) {
@@ -90,7 +90,7 @@ impl AstVisitor for MethodsAttributesChecker {
             class_member_error("cannot be abstract and native at the same time",
                 &self.namespace, &self.class, &name, &self.file, pos);
         }
-        let body = n.get_statements().len() != 0;
+        let body = n.has_body();
         if (!self.is_abstract && !self.is_interface && !is_native_function) && !body {
             class_member_error("bodyless methods in normal classes are only allowed if natives",
                     &self.namespace, &self.class, &name, &self.file, pos);

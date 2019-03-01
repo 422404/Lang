@@ -55,3 +55,7 @@ Student: Person {
         return this.ine;
     }
 }
+
+voidFunction(): Void {
+    return;
+}

@@ -6,7 +6,10 @@ mod ast_actions;
 use source_file::SourceFile;
 use ast_actions::{
     modifiers::{block_expander},
-    validators::{class_methods_checker},
+    validators::{
+        class_methods_checker1,
+        functions_checker1
+    },
 };
 use std::env;
 use std::collections::{HashMap, hash_map::Entry};
@@ -18,7 +21,11 @@ fn main() {
     // debug
     for source_files in namespaces.values_mut() {
         for source_file in source_files {
-            class_methods_checker::check_methods_body(source_file);
+            // validations
+            class_methods_checker1::check_methods_body(source_file);
+            functions_checker1::check_functions_body(source_file);
+
+            // alterations
             block_expander::expand_blocks(source_file);
             println!("{:#?}", source_file);
         }

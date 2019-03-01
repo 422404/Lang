@@ -158,7 +158,7 @@ expression = {
 }
 
 return_stmt = {
-    "return" ~ expression
+    "return" ~ expression?
 }
 
 statement = {
