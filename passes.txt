@@ -7,8 +7,9 @@ Out of order passes:
     --> interfaces have only bodyless methods, these are not .abstract
 - OK: Check freestanding functions body:
     --> only native functions can be bodyless
+    --> cannot be abstract
+- OK: Collect symbols
 
-- Collect symbols
 - Type checking
 - Validate attributes:
     --> make a list of reserved attributes

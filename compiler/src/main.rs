@@ -2,6 +2,7 @@ extern crate lang_parser;
 mod source_file;
 mod errors;
 mod ast_actions;
+mod symbol_table;
 
 use source_file::SourceFile;
 use ast_actions::{
@@ -11,6 +12,7 @@ use ast_actions::{
         functions_checker1
     },
 };
+use symbol_table::{create_symbol_table};
 use std::env;
 use std::collections::{HashMap, hash_map::Entry};
 
@@ -27,9 +29,15 @@ fn main() {
 
             // alterations
             block_expander::expand_blocks(source_file);
-            println!("{:#?}", source_file);
         }
     }
+    /*for source_files in namespaces.values_mut() {
+        for source_file in source_files {
+            println!("{:#?}", source_file);
+        }
+    }*/
+    let symbols = create_symbol_table(namespaces);
+    println!("{:#?}", symbols);
 }
 
 fn collect_raw_asts() -> Vec<SourceFile> {

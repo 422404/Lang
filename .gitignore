@@ -1,4 +1,6 @@
-phases.txt
+passes.txt
 todo.txt
 target
 *.zip
+node_modules
+.docs
